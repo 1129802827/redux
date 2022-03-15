@@ -1,70 +1,39 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+什么是 Redux
+1. redux 是专门用来做状态管理的 JS 库(不是 React 插件库)
+2. 它可以在 react、angular、vue 等项目中使用,但基本与 react 配合使用
+3. 集中管理 react 应用中多个组件共享的状态
 
-## Available Scripts
+什么情况下使用 redux
+1.某个组件的状态,需要让其他组件可以随时拿到(共享)
+2.一个组件需要改变另一个组件的状态(通信)
+3.总体原则: 能不用就不用,如果不用比较吃力才考虑使用
 
-In the project directory, you can run:
 
-### `npm start`
+              dispatch(action): 1.type: 动作类型标识(唯一)    previousState, action
+                                2.data: 动作数据            -------------------->
+Action Creators -------------------------------->  Store                         Reducers
+       /|\                                            |    <--------------------
+        |                                             |       return newState
+        |                                             |  
+        | do what ?                                   |  
+        |                                             | getState()
+        |                                             |
+        |                                            \|/
+        --------------------------------------- React Components
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+action:动作对象包含:type、data 两个属性
+  type:标识属性,值是字符串, 唯一,必要
+  data:数据属性,值是任意类型,可选
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+reducer:用于初始化状态、加工状态,加工时根据旧的 state 和 action 产生新的 state 的纯函数
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+store: 将 state、action、reducer 联系在一起的对象
+如何得到此对象?
+  1. import {createStore} from 'redux'
+  2. import reducer from './reducers'
+  3. const store = createStore(reducer)
+此对象的功能  
+  getState():得到 state
+  dispatch(action):分发 action,触发 reducer 调用,产生新的 state
+  subscribe(listener):注册监听,当产生了新的 state 时,自动调用
