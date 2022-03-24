@@ -37,3 +37,6 @@ store: 将 state、action、reducer 联系在一起的对象
   getState():得到 state
   dispatch(action):分发 action,触发 reducer 调用,产生新的 state
   subscribe(listener):注册监听,当产生了新的 state 时,自动调用
+
+redux 只负责管理状态,至于状态的改变驱动页面的展示,需要我们自己写
+Redux 安装 : yarn add redux
