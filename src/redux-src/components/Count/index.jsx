@@ -26,7 +26,7 @@ export default class Count extends Component {
 
     decrement = ()=>{
         const {value} = this.selectNumber
-        store.dispatch(createDecrementAction)
+        store.dispatch(createDecrementAction(value*1))
     }
 
     incrementIfOdd = () => {
